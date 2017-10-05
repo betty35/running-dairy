@@ -35,7 +35,7 @@ dependencies {
 
 
 greendao {
-    schemaVersion 3
+    schemaVersion 4
     daoPackage 'bzha2709.comp5216.sydney.edu.au.runningdiary.db'
     targetGenDir 'src/main/java'
 }

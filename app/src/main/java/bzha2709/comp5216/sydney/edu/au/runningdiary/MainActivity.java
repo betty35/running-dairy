@@ -4,6 +4,10 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -39,8 +43,11 @@ import bzha2709.comp5216.sydney.edu.au.runningdiary.POJO.TrackPoint;
 import bzha2709.comp5216.sydney.edu.au.runningdiary.db.DaoMaster;
 import bzha2709.comp5216.sydney.edu.au.runningdiary.db.DaoSession;
 import bzha2709.comp5216.sydney.edu.au.runningdiary.db.TrackPointDao;
+import bzha2709.comp5216.sydney.edu.au.runningdiary.listener.MyLocationListener;
+import bzha2709.comp5216.sydney.edu.au.runningdiary.listener.MyStepListener;
 import bzha2709.comp5216.sydney.edu.au.runningdiary.tools.DateUtil;
 import bzha2709.comp5216.sydney.edu.au.runningdiary.tools.GeoUtils;
+import bzha2709.comp5216.sydney.edu.au.runningdiary.simplepedometer.*;
 
 public class MainActivity extends AppCompatActivity
         implements OnMapReadyCallback, GoogleMap.OnPolylineClickListener
@@ -53,7 +60,7 @@ public class MainActivity extends AppCompatActivity
     private static final List<PatternItem> PATTERN_POLYLINE_DOTTED = Arrays.asList(GAP, DOT);
 
     SupportMapFragment mapFragment;
-    private GoogleMap mMap;
+    public GoogleMap mMap;
     Stats stats;
     Music music;
 
@@ -62,20 +69,25 @@ public class MainActivity extends AppCompatActivity
     List<String> providers;
     String locationProvider;
     Location location;
-    LatLng currentLoc;
+   // LatLng currentLoc;
     ArrayList<Polyline> lines;
     TrackPointDao tpDAO;
     FrameLayout content;
-    TrackPoint initialPoint;
+    /*TrackPoint initialPoint;
     TrackPoint lastPoint;
-    TrackPoint currentPoint;
+    TrackPoint currentPoint;*/
 
     Fragment currentFragment;
 
+    private SimpleStepDetector simpleStepDetector;
+    private SensorManager sensorManager;
+    private Sensor accel;
+    private static final String TEXT_NUM_STEPS = "Number of Steps: ";
+    private int numSteps;
 
-
-
-    LocationListener locationListener =  new LocationListener() {
+    MyStepListener myStepListener;
+    MyLocationListener locationListener;
+           /* new LocationListener() {
 
         @Override
         public void onStatusChanged(String provider, int status, Bundle arg2){ }
@@ -130,7 +142,7 @@ public class MainActivity extends AppCompatActivity
                 //Toast.makeText(MainActivity.this,"lat:"+location.getLatitude()+",lng:"+location.getLongitude()+",alt:"+location.getAltitude()+",speed:"+location.hasSpeed(),Toast.LENGTH_LONG).show();
             }
         }
-    };
+    };*/
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -167,6 +179,7 @@ public class MainActivity extends AppCompatActivity
             //移除监听器
             locationManager.removeUpdates(locationListener);
         }
+        sensorManager.unregisterListener(myStepListener);
     }
 
 
@@ -208,6 +221,15 @@ public class MainActivity extends AppCompatActivity
             {Toast.makeText(this, "No location provider available", Toast.LENGTH_LONG).show(); return;}
             if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)==PackageManager.PERMISSION_GRANTED)
             location = locationManager.getLastKnownLocation(locationProvider);
+
+            // Get an instance of the SensorManager
+            sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+            accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+            simpleStepDetector = new SimpleStepDetector();
+            myStepListener=new MyStepListener(simpleStepDetector);
+            simpleStepDetector.registerListener(myStepListener);
+
+            locationListener = new MyLocationListener(mMap,location,MAP_CAMERA_ENLARGE_LEVEL,MainActivity.this);
             locationManager.requestLocationUpdates(locationProvider, 5*1000, 10, locationListener);
         }
 
@@ -221,6 +243,7 @@ public class MainActivity extends AppCompatActivity
         // Add polylines and polygons to the map. This section shows just
         // a single polyline. Read the rest of the tutorial to learn more.
         mMap = googleMap;
+        locationListener.setMap(mMap);
         LatLng mypos;
         if(null==location)mypos=new LatLng(-33.88853099,151.19398512);
         else mypos=new LatLng(location.getLatitude(),location.getLongitude());
@@ -369,5 +392,4 @@ public class MainActivity extends AppCompatActivity
             savePoint(tp);
         }
     }
-
 }
