@@ -41,12 +41,13 @@ public class SimpleStepDetector {
   /**
    * Accepts updates from the accelerometer.
    */
-  public void updateAccel(long timeNs, float x, float y, float z) {
+  public long updateAccel(long timeNs, float x, float y, float z) {
     float[] currentAccel = new float[3];
     currentAccel[0] = x;
     currentAccel[1] = y;
     currentAccel[2] = z;
 
+    long step_made=0;
     // First step is to update our guess of where the global z vector is.
     accelRingCounter++;
     accelRingX[accelRingCounter % ACCEL_RING_SIZE] = currentAccel[0];
@@ -74,9 +75,11 @@ public class SimpleStepDetector {
 
     if (velocityEstimate > STEP_THRESHOLD && oldVelocityEstimate <= STEP_THRESHOLD
         && (timeNs - lastStepTimeNs > STEP_DELAY_NS)) {
-      listener.step(timeNs);
+     // listener.step(timeNs);
       lastStepTimeNs = timeNs;
+      step_made=timeNs;
     }
     oldVelocityEstimate = velocityEstimate;
+    return step_made;
   }
 }

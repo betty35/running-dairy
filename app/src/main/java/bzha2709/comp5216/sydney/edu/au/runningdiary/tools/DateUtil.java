@@ -44,6 +44,32 @@ public class DateUtil {
         return cal.getTime();
     }
 
+
+    public static Date getMorningTimeOfDay(int year,int month,int day)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR,year);
+        cal.set(Calendar.MONTH,month);
+        cal.set(Calendar.DAY_OF_MONTH,day);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
+    }
+
+    public static Date getEveningTimeOfDay(int year,int month,int day)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR,year);
+        cal.set(Calendar.MONTH,month);
+        cal.set(Calendar.DAY_OF_MONTH,day);
+        cal.set(Calendar.HOUR_OF_DAY, 24);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
+    }
     // 获得本周一0点时间
     public static Date getBeginningOfThisWeek() {
         Calendar cal = Calendar.getInstance();

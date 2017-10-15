@@ -8,11 +8,12 @@
     android:orientation="vertical"
     tools:context="bzha2709.comp5216.sydney.edu.au.runningdiary.MainActivity">
 
+
     <FrameLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1.15">
 
        <!-- <fragment xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
@@ -33,6 +34,16 @@
             android:layout_height="match_parent"/>-->
 
     </FrameLayout>
+
+    <Button
+        android:id="@+id/main_start_button"
+        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="0dp"
+        android:onClick="counterChange"
+        android:text="Start" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"

@@ -25,17 +25,22 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    //noinspection GradleCompatible
     compile 'com.android.support:appcompat-v7:26+'
+    //noinspection GradleDynamicVersion
     compile 'com.android.support:design:26+'
     testCompile 'junit:junit:4.12'
     compile 'com.google.android.gms:play-services-maps:11.0.4'
     compile 'org.greenrobot:greendao:3.2.2'
-   // compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    compile 'com.cleveroad:audiowidget:1.0.0'
+    // https://mvnrepository.com/artifact/com.belerweb/pinyin4j
+    compile group: 'com.belerweb', name: 'pinyin4j', version: '2.5.0'
 }
 
 
 greendao {
-    schemaVersion 4
+    schemaVersion 5
     daoPackage 'bzha2709.comp5216.sydney.edu.au.runningdiary.db'
     targetGenDir 'src/main/java'
 }

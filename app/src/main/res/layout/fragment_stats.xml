@@ -1,13 +1,104 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="bzha2709.comp5216.sydney.edu.au.runningdiary.Stats">
 
 
-    <TextView
-        android:id="@+id/textView"
+    <Button
+        android:id="@+id/stat_check"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:text="Check" />
+
+    <TextView
+        android:id="@+id/stat_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@id/stat_check"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_alignBaseline="@id/stat_check"
         android:text="TextView" />
-</FrameLayout>
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/stat_spd_line"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_below="@id/stat_date"
+        android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+    <TextView
+        android:id="@+id/stat_spd_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignBaseline="@id/stat_date"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:text="Speed Chart" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/stat_spd_label"
+        android:layout_below="@+id/stat_spd_line"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:text="Average spd" />
+
+    <TextView
+        android:id="@+id/stat_avg_spd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView5"
+        android:layout_below="@+id/textView5"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:text="0m/s"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textView5"
+        android:layout_centerHorizontal="true"
+        android:text="Steps Today" />
+
+    <TextView
+        android:id="@+id/stat_step_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_alignBaseline="@+id/stat_avg_spd"
+        android:layout_alignBottom="@+id/stat_avg_spd"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time Track"
+        android:layout_alignBaseline="@+id/textView2"
+        android:layout_alignBottom="@+id/textView2"
+        android:layout_alignStart="@+id/stat_check" />
+
+    <TextView
+        android:id="@+id/stat_time_track"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0:00:00"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_alignBaseline="@+id/stat_step_count"
+        android:layout_alignBottom="@+id/stat_step_count"
+        android:layout_alignStart="@+id/textView4" />
+
+</RelativeLayout>

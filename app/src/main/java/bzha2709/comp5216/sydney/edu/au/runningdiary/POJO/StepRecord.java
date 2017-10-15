@@ -1,6 +1,7 @@
 package bzha2709.comp5216.sydney.edu.au.runningdiary.POJO;
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.Keep;
 import org.greenrobot.greendao.annotation.Property;
@@ -17,7 +18,8 @@ import org.greenrobot.greendao.annotation.Generated;
 
 @Entity
 public class StepRecord {
-    @Index(unique = true) private Date date;
+    @Id private Long id;
+    @Property private Date date;
     @Property private int steps;
 
     @Keep
@@ -30,6 +32,12 @@ public class StepRecord {
     public StepRecord(Date d,int steps)
     {
      this.date=d;
+    }
+    @Generated(hash = 904788868)
+    public StepRecord(Long id, Date date, int steps) {
+        this.id = id;
+        this.date = date;
+        this.steps = steps;
     }
 
     public Date getDate() {
@@ -46,5 +54,11 @@ public class StepRecord {
 
     public void setSteps(int steps) {
         this.steps = steps;
+    }
+    public Long getId() {
+        return this.id;
+    }
+    public void setId(Long id) {
+        this.id = id;
     }
 }

@@ -17,8 +17,8 @@ import java.util.Date;
 @Entity
 public class TrackPoint
 {
-
-    @Index(unique = true) private Date time;
+    @Id(autoincrement = true) private Long id;
+    @Property private Date time;
     @Property private double lat;
     @Property private double lng;
     @Property private double alt;
@@ -60,8 +60,10 @@ public class TrackPoint
         this.time=new Date();
     }
 
-    @Generated(hash = 844170674)
-    public TrackPoint(Date time, double lat, double lng, double alt, float speed) {
+    @Generated(hash = 1558962686)
+    public TrackPoint(Long id, Date time, double lat, double lng, double alt,
+            float speed) {
+        this.id = id;
         this.time = time;
         this.lat = lat;
         this.lng = lng;
@@ -91,5 +93,13 @@ public class TrackPoint
 
     public void setLng(double lng) {
         this.lng = lng;
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

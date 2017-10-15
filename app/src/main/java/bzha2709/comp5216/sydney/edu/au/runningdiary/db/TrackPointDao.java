@@ -15,7 +15,7 @@ import bzha2709.comp5216.sydney.edu.au.runningdiary.POJO.TrackPoint;
 /** 
  * DAO for table "TRACK_POINT".
 */
-public class TrackPointDao extends AbstractDao<TrackPoint, Void> {
+public class TrackPointDao extends AbstractDao<TrackPoint, Long> {
 
     public static final String TABLENAME = "TRACK_POINT";
 
@@ -24,11 +24,12 @@ public class TrackPointDao extends AbstractDao<TrackPoint, Void> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property Time = new Property(0, java.util.Date.class, "time", false, "TIME");
-        public final static Property Lat = new Property(1, double.class, "lat", false, "LAT");
-        public final static Property Lng = new Property(2, double.class, "lng", false, "LNG");
-        public final static Property Alt = new Property(3, double.class, "alt", false, "ALT");
-        public final static Property Speed = new Property(4, float.class, "speed", false, "SPEED");
+        public final static Property Id = new Property(0, Long.class, "id", true, "_id");
+        public final static Property Time = new Property(1, java.util.Date.class, "time", false, "TIME");
+        public final static Property Lat = new Property(2, double.class, "lat", false, "LAT");
+        public final static Property Lng = new Property(3, double.class, "lng", false, "LNG");
+        public final static Property Alt = new Property(4, double.class, "alt", false, "ALT");
+        public final static Property Speed = new Property(5, float.class, "speed", false, "SPEED");
     }
 
 
@@ -44,14 +45,12 @@ public class TrackPointDao extends AbstractDao<TrackPoint, Void> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"TRACK_POINT\" (" + //
-                "\"TIME\" INTEGER," + // 0: time
-                "\"LAT\" REAL NOT NULL ," + // 1: lat
-                "\"LNG\" REAL NOT NULL ," + // 2: lng
-                "\"ALT\" REAL NOT NULL ," + // 3: alt
-                "\"SPEED\" REAL NOT NULL );"); // 4: speed
-        // Add Indexes
-        db.execSQL("CREATE UNIQUE INDEX " + constraint + "IDX_TRACK_POINT_TIME ON \"TRACK_POINT\"" +
-                " (\"TIME\" ASC);");
+                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
+                "\"TIME\" INTEGER," + // 1: time
+                "\"LAT\" REAL NOT NULL ," + // 2: lat
+                "\"LNG\" REAL NOT NULL ," + // 3: lng
+                "\"ALT\" REAL NOT NULL ," + // 4: alt
+                "\"SPEED\" REAL NOT NULL );"); // 5: speed
     }
 
     /** Drops the underlying database table. */
@@ -64,71 +63,86 @@ public class TrackPointDao extends AbstractDao<TrackPoint, Void> {
     protected final void bindValues(DatabaseStatement stmt, TrackPoint entity) {
         stmt.clearBindings();
  
+        Long id = entity.getId();
+        if (id != null) {
+            stmt.bindLong(1, id);
+        }
+ 
         java.util.Date time = entity.getTime();
         if (time != null) {
-            stmt.bindLong(1, time.getTime());
+            stmt.bindLong(2, time.getTime());
         }
-        stmt.bindDouble(2, entity.getLat());
-        stmt.bindDouble(3, entity.getLng());
-        stmt.bindDouble(4, entity.getAlt());
-        stmt.bindDouble(5, entity.getSpeed());
+        stmt.bindDouble(3, entity.getLat());
+        stmt.bindDouble(4, entity.getLng());
+        stmt.bindDouble(5, entity.getAlt());
+        stmt.bindDouble(6, entity.getSpeed());
     }
 
     @Override
     protected final void bindValues(SQLiteStatement stmt, TrackPoint entity) {
         stmt.clearBindings();
  
+        Long id = entity.getId();
+        if (id != null) {
+            stmt.bindLong(1, id);
+        }
+ 
         java.util.Date time = entity.getTime();
         if (time != null) {
-            stmt.bindLong(1, time.getTime());
+            stmt.bindLong(2, time.getTime());
         }
-        stmt.bindDouble(2, entity.getLat());
-        stmt.bindDouble(3, entity.getLng());
-        stmt.bindDouble(4, entity.getAlt());
-        stmt.bindDouble(5, entity.getSpeed());
+        stmt.bindDouble(3, entity.getLat());
+        stmt.bindDouble(4, entity.getLng());
+        stmt.bindDouble(5, entity.getAlt());
+        stmt.bindDouble(6, entity.getSpeed());
     }
 
     @Override
-    public Void readKey(Cursor cursor, int offset) {
-        return null;
+    public Long readKey(Cursor cursor, int offset) {
+        return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
     }    
 
     @Override
     public TrackPoint readEntity(Cursor cursor, int offset) {
         TrackPoint entity = new TrackPoint( //
-            cursor.isNull(offset + 0) ? null : new java.util.Date(cursor.getLong(offset + 0)), // time
-            cursor.getDouble(offset + 1), // lat
-            cursor.getDouble(offset + 2), // lng
-            cursor.getDouble(offset + 3), // alt
-            cursor.getFloat(offset + 4) // speed
+            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
+            cursor.isNull(offset + 1) ? null : new java.util.Date(cursor.getLong(offset + 1)), // time
+            cursor.getDouble(offset + 2), // lat
+            cursor.getDouble(offset + 3), // lng
+            cursor.getDouble(offset + 4), // alt
+            cursor.getFloat(offset + 5) // speed
         );
         return entity;
     }
      
     @Override
     public void readEntity(Cursor cursor, TrackPoint entity, int offset) {
-        entity.setTime(cursor.isNull(offset + 0) ? null : new java.util.Date(cursor.getLong(offset + 0)));
-        entity.setLat(cursor.getDouble(offset + 1));
-        entity.setLng(cursor.getDouble(offset + 2));
-        entity.setAlt(cursor.getDouble(offset + 3));
-        entity.setSpeed(cursor.getFloat(offset + 4));
+        entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
+        entity.setTime(cursor.isNull(offset + 1) ? null : new java.util.Date(cursor.getLong(offset + 1)));
+        entity.setLat(cursor.getDouble(offset + 2));
+        entity.setLng(cursor.getDouble(offset + 3));
+        entity.setAlt(cursor.getDouble(offset + 4));
+        entity.setSpeed(cursor.getFloat(offset + 5));
      }
     
     @Override
-    protected final Void updateKeyAfterInsert(TrackPoint entity, long rowId) {
-        // Unsupported or missing PK type
-        return null;
+    protected final Long updateKeyAfterInsert(TrackPoint entity, long rowId) {
+        entity.setId(rowId);
+        return rowId;
     }
     
     @Override
-    public Void getKey(TrackPoint entity) {
-        return null;
+    public Long getKey(TrackPoint entity) {
+        if(entity != null) {
+            return entity.getId();
+        } else {
+            return null;
+        }
     }
 
     @Override
     public boolean hasKey(TrackPoint entity) {
-        // TODO
-        return false;
+        return entity.getId() != null;
     }
 
     @Override

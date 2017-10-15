@@ -16,6 +16,7 @@ public class MarshMallowPermission {
     public static final int MY_LOCATION_PERMISSION_REQUEST_CODE = 1;
     public static final int EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE = 2;
     public static final int READ_FILES_PERMISSION_REQUEST_CODE = 3;
+    public static final int MY_WINDOW_PERMISSION_REQUEST_CODE=4;
     Activity activity;
 
     public MarshMallowPermission(Activity activity) {
@@ -31,6 +32,16 @@ public class MarshMallowPermission {
             return false;
         }
     }
+
+    public boolean checkPermissionForAlertWindow(){
+        int result = ContextCompat.checkSelfPermission(activity, Manifest.permission.SYSTEM_ALERT_WINDOW);
+        if (result == PackageManager.PERMISSION_GRANTED){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public boolean checkPermissionForInternet()
     {
         int result=ContextCompat.checkSelfPermission(activity,Manifest.permission.INTERNET);
@@ -98,6 +109,13 @@ public class MarshMallowPermission {
         }
     }
 
+    public void requestPermissionForWindow(){
+        if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.SYSTEM_ALERT_WINDOW)){
+            Toast.makeText(activity, "System alert window permission needed. Please allow in App Settings for additional functionality.", Toast.LENGTH_LONG).show();
+        } else {
+            ActivityCompat.requestPermissions(activity,new String[]{Manifest.permission.SYSTEM_ALERT_WINDOW},MY_WINDOW_PERMISSION_REQUEST_CODE);
+        }
+    }
 
 
 }
