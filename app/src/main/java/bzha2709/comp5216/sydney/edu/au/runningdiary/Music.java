@@ -1,10 +1,6 @@
 package bzha2709.comp5216.sydney.edu.au.runningdiary;
 
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -21,32 +17,19 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SeekBar;
-import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import com.cleveroad.audiowidget.AudioWidget;
 
-import net.sourceforge.pinyin4j.PinyinHelper;
-
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import bzha2709.comp5216.sydney.edu.au.runningdiary.POJO.Song;
-import bzha2709.comp5216.sydney.edu.au.runningdiary.R;
-import bzha2709.comp5216.sydney.edu.au.runningdiary.tools.MusicFilter;
 import bzha2709.comp5216.sydney.edu.au.runningdiary.tools.MusicUtils;
 import bzha2709.comp5216.sydney.edu.au.runningdiary.tools.MyAdapter;
-import bzha2709.comp5216.sydney.edu.au.runningdiary.tools.WordUtils;
-
 /**
  * A simple {@link Fragment} subclass.
  */

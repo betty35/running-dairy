@@ -55,6 +55,7 @@ public class Stats extends android.support.v4.app.Fragment {
     TextView avg_spd;
     TextView step_count;
     TextView time_track;
+    int steps;
 
     public Stats() {
         // Required empty public constructor
@@ -106,6 +107,7 @@ public class Stats extends android.support.v4.app.Fragment {
             public void onClick(View v) {showDialogPick((TextView) v);}
         });
         updateSpdLineChart(lineChart);
+        step_count.setText(ma.myStepListener.getNumSteps()+"");
         return view;
     }
 
@@ -151,9 +153,22 @@ public class Stats extends android.support.v4.app.Fragment {
             }
         }, year, month, day);
         datePickerDialog.show();
-
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden)
+        {
+
+        }
+        else
+        {//update data
+            tpl= ma.getPeriodsOfDataFromDB(DateUtil.getThisMorning(),DateUtil.getTodayEvening());
+            updateSpdLineChart(lineChart);
+
+        }
+    }
 
     public void searchHistory(View view)
     {
@@ -173,7 +188,7 @@ public class Stats extends android.support.v4.app.Fragment {
             TrackPoint t=tpl.get(i);
             spd.add(new Entry(t.getTime().getTime(),t.getSpeed()));
         }
-        Toast.makeText(getActivity(),"spd:"+spd.size(),Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getActivity(),"spd:"+spd.size(),Toast.LENGTH_SHORT).show();
         if(chart.getData()!=null) chart.clear();
         if(tpl.size()>0)
         {

@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity
     private Sensor accel;
     public int numSteps;
 
-    MyStepListener myStepListener;
+    public MyStepListener myStepListener;
     MyLocationListener locationListener;
     Handler handler;
     CounterThread ct;
